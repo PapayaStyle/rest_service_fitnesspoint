@@ -1,0 +1,32 @@
+<query name="selectAll">
+	select ID, NAME, ACTIVITY, DESCRIPTION, IMG, SHOWED
+	from STAFF 
+	order by NAME asc
+</query>
+
+<query name="selectAllToShow">
+	select ID, NAME, ACTIVITY, DESCRIPTION, IMG, SHOWED
+	from STAFF 
+	WHERE SHOWED = 1
+	order by NAME asc
+</query>
+
+<query name="insert">
+	insert into STAFF (NAME, ACTIVITY, DESCRIPTION, IMG, SHOWED)
+	values (?, ?, ?, ?, ?)
+</query>
+
+<query name="update">
+	update STAFF 
+	set 	NAME = ?, 
+			ACTIVITY = ?, 
+			DESCRIPTION = ?, 
+			IMG = ?, 
+			SHOWED = ?
+	where ID = ?
+</query>
+
+<query name="deleteById">
+	delete from STAFF 
+	where ID = ?
+</query>

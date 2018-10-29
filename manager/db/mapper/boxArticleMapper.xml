@@ -1,0 +1,32 @@
+<query name="selectAll">
+	select ba.ID, ba.TITLE, ba.DESCRIPTION, ba.SHOWED, ba.PAGE, p.NAME as PAGE_TITLE
+	from BOX_ARTICLE ba
+		left join PAGE p 
+			on ba.PAGE = p.PAGE
+			
+</query>
+
+<query name="selectByPage">
+	select ID, TITLE, DESCRIPTION, SHOWED, PAGE
+	from BOX_ARTICLE
+	where PAGE = ?
+</query>
+
+<query name="update">
+	update BOX_ARTICLE 
+	set 	TITLE = ?, 
+			DESCRIPTION = ?, 
+			SHOWED = ?, 
+			PAGE = ?
+	where ID = ?
+</query>
+
+<query name="insert">
+	insert into BOX_ARTICLE (TITLE, DESCRIPTION, SHOWED, PAGE)
+	values (?, ?, ?, ?)
+</query>
+
+<query name="deleteById">
+	delete from BOX_ARTICLE 
+	where ID = ?
+</query>

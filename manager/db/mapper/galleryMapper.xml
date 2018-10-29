@@ -1,0 +1,39 @@
+<query name="selectAll">
+	select ID, PREVIEW, IMG, SHOWED, PAGE
+	from GALLERY
+</query>
+
+<query name="selectAllByPage">
+	select ID, PREVIEW, IMG, SHOWED, PAGE
+	from GALLERY
+	where PAGE = ?
+</query>
+
+<query name="selectToShowByPage">
+	select ID, PREVIEW, IMG, SHOWED, PAGE
+	from GALLERY
+	where SHOWED = 1
+		and PAGE = ?
+</query>
+
+<query name="selectByIds">
+	select ID, PREVIEW, IMG, SHOWED, PAGE
+	from GALLERY
+	where ID in (
+</query>
+
+<query name="insert">
+	insert into GALLERY (PREVIEW, IMG, SHOWED, PAGE)
+	values (?, ?, ?, ?)
+</query>
+
+<query name="update">
+	update GALLERY
+	set SHOWED = ?
+	where ID in (
+</query>
+
+<query name="delete">
+	delete from GALLERY
+	where ID in (
+</query>

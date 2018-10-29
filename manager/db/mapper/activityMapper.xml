@@ -1,0 +1,46 @@
+<query name="selectAll">
+	select ID, NAME, DESCRIPTION, IMG, URL, SHOWED
+	from ACTIVITY 
+	order by NAME asc
+</query>
+
+<query name="selectAllToShow">
+	select ID, NAME, DESCRIPTION, IMG, URL, SHOWED
+	from ACTIVITY 
+	where SHOWED = 1
+	order by NAME asc
+</query>
+
+<query name="selectOne">
+	select ID, NAME, DESCRIPTION, IMG, URL, SHOWED
+	from ACTIVITY 
+	where ID = ?
+</query>
+
+<query name="update">
+	update ACTIVITY 
+	set 	NAME = ?, 
+			DESCRIPTION = ?, 
+			IMG = ?, 
+			URL = ?, 
+			SHOWED = ?
+	where ID = ?
+</query>
+
+<query name="updateNoImg">
+	update ACTIVITY 
+	set 	NAME = ?, 
+			DESCRIPTION = ?, 
+			SHOWED = ?
+	where ID = ?
+</query>
+
+<query name="insert">
+	insert into ACTIVITY (NAME, DESCRIPTION, IMG, URL, SHOWED)
+	values (?, ?, ?, ?, ?)
+</query>
+
+<query name="deleteById">
+	delete from ACTIVITY 
+	where ID = ?
+</query>
