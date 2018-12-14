@@ -75,7 +75,7 @@
 		}
 	}
 	
-	$outp = '{"activities": ['.$firstOut.','.$outp.']}';
+	$outp = '['.$firstOut.','.$outp.']';
 	echo($outp);
 		
 ?>

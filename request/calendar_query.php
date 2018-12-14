@@ -16,7 +16,7 @@
 		
 		if ($outp != "") {$outp .= ",";}
 		
-		$outp .=  '{"Time":"'.$time.'",';
+		$outp .=  '{"time":"'.$time.'",';
 		
 		for ($i = 0; $i < 5; $i++) {
 			
@@ -27,23 +27,23 @@
 				
 			switch($i) {
 				case 0: 
-					$outp .=  '"Monday": [';
+					$outp .=  '"monday": [';
 					break;
 				
 				case 1:
-					$outp .=  '"Tuesday": [';
+					$outp .=  '"tuesday": [';
 					break;
 					
 				case 2:
-					$outp .=  '"Wednesday": [';
+					$outp .=  '"wednesday": [';
 					break;
 					
 				case 3:
-					$outp .=  '"Thursday": [';
+					$outp .=  '"thursday": [';
 					break;
 					
 				case 4:
-					$outp .=  '"Friday": [';
+					$outp .=  '"friday": [';
 					break;
 			}
 			
@@ -57,10 +57,10 @@
 				}
 				$subarr="fill";
 				
-				$outp .=  '{"Id":"'.$activity->getId().'",';
-				$outp .=  '"Name":"'.$activity->getActivity().'",';
-				$outp .=  '"Note":"'.$activity->getNote().'",';
-				$outp .=  '"Link":"'.$nameLink.'"}';
+				$outp .=  '{"id":"'.$activity->getId().'",';
+				$outp .=  '"name":"'.$activity->getActivity().'",';
+				$outp .=  '"note":"'.$activity->getNote().'",';
+				$outp .=  '"link":"'.$nameLink.'"}';
 			}
 			$outp .=  ']';
 			$subarr = "";
@@ -70,7 +70,8 @@
 		
 	}
 
-	$outp = '{"courses":['.$outp.']}';
+	//$outp = '{"courses":['.$outp.']}';
+	$outp = '['.$outp.']';
 	echo($outp);
 
 	/*

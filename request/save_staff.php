@@ -6,20 +6,21 @@
 	$target_dir = $_SERVER['DOCUMENT_ROOT']."/images/";
 	$defaultImage = '/images/default.jpg';
 	
-	$post = json_decode($_POST['data']);
+	$data = $_POST['data'];
+	$body = json_decode($data, true);
 	
-	$id = $post->id;
-	$name = $post->name;
-	$act = $post->act;
-	$desc = preg_replace( '~[\r\n]+~', '<br />', $post->desc);
-	$show = $post->show;
-	$type = $post->type;
+	$id = $body['id'];
+	$name = $body['name'];
+	$act = $body['act'];
+	$desc = preg_replace( '~[\r\n]+~', '<br />', $body['desc']);
+	$show = $body['show'];
+	$type = $body['type'];
 	
 	$image = null;
 	if ($type == "I")
 		$image = $defaultImage;
 	else
-		$image = $post->img;
+		$image = $body['img'];
 	
 	$file_to_upload = null;
 	$target_file = null;
@@ -44,7 +45,7 @@
 		
 		if($uploaded) {
 			$daoStaff->insert($name, $act, $desc, $image, $show);
-			echo  '{"status":"OK", "message": "Staff successfully inserted"}';
+			echo  '{"status":"OK", "message": "Staff inserito con successo"}';
 		} else {
 			header("HTTP/1.1 500 Internal Server Error");
 			echo($GLOBALS['error']);
@@ -60,7 +61,7 @@
 		
 		if($uploaded) {
 			$daoStaff->update($id, $name, $act, $desc, $image, $show);
-			echo  '{"status":"OK", "message": "Staff successfully updated"}';
+			echo  '{"status":"OK", "message": "Staff modificato con successo"}';
 		} else {
 			header("HTTP/1.1 500 Internal Server Error");
 			echo($GLOBALS['error']);
@@ -71,7 +72,7 @@
 	//DELETE
 	else if ($type == "D") {
 		$daoStaff->deleteById($id);
-		echo  '{"status":"OK", "message": "Staff successfully deleted"}';
+		echo  '{"status":"OK", "message": "Staff cancellato con successo"}';
 	}
 
 ?>
@@ -84,13 +85,13 @@
 		$check = getimagesize($file_to_upload);
 		if(!$check !== false) {
 			$uploadOk = 0;
-			$GLOBALS['error'] = ('{"status":"KO", "message": "Invalid image"}');
+			$GLOBALS['error'] = ('{"status":"KO", "message": "Immagine non valida"}');
 		}
 		
 		// Check if file already exists
 		if (file_exists($target_file)) {
 			$uploadOk = 0;
-			$GLOBALS['error']  = ('{"status":"KO", "message": "Image already exist"}');
+			$GLOBALS['error']  = ('{"status":"KO", "message": "Immagina già presente"}');
 		}
 		
 		if ($uploadOk == 0) {
@@ -103,7 +104,7 @@
 				return true;
 			} else {
 				//header("HTTP/1.1 500 Internal Server Error");
-				$GLOBALS['error']  = ('{"status":"KO", "message": "Error uploading"}');
+				$GLOBALS['error']  = ('{"status":"KO", "message": "Errore Caricamento immagine"}');
 				//echo($error);
 				return false;
 			}

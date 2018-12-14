@@ -50,8 +50,7 @@
 		
 	}
 	
-	$outp = '{"news": ['.$outp.']}';
+	$outp = '['.$outp.']';
 	echo($outp);
-	return true;
 		
 ?>

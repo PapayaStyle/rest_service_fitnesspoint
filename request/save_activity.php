@@ -1,33 +1,45 @@
 <?php
 	require 'request.php';	
+	//header("Content-Type: multipart/form-data; charset=utf-8;");
+	//header("Content-Type': 'application/x-www-form-urlencoded");
+	
 	include $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/activityDAO.php";
 	
 	$GLOBALS['error'] = '';
-	$target_dir = $_SERVER['DOCUMENT_ROOT']."/images/";
+	$target_dir = $_SERVER['DOCUMENT_ROOT']."/imgUploaded/";
 	$defaultImage = '/images/default.jpg';
 	
-	$post = json_decode($_POST['data']);
+	//print_r(json_decode($_POST['data'], true));
+	//print_r($_FILES['file']);
 	
-	$id = $post->id;
-	$title = $post->title;
-	$desc = preg_replace( '~[\r\n]+~', '<br />', $post->desc);
-	$url = $post->video;
-	$show = $post->show;
-	$type = $post->type;
+	$data = $_POST['data'];
+	$body = json_decode($data, true);
+	
+	
+	$id = $body['id'];
+	$title = $body['title'];
+	$desc = preg_replace( '~[\r\n]+~', '<br />', $body['desc']);
+	$url = $body['video'];
+	$show = $body['show'];
+	$type = $body['type'];
 	
 	if ($type == "I")
 		$image = $defaultImage;
 	else
-		$image =  $post->img;
+		$image =  $body['image'];
 	
 	$file_to_upload = null;
 	$target_file = null;
 	
 	$doUpload = isset($_FILES['file']);
+	//echo $doUpload;
 	if($doUpload) {
 		$file_to_upload = $_FILES['file']['tmp_name'];
 		$target_file = $target_dir . basename($_FILES['file']['name']);
 		$image =  "/images/".basename($_FILES['file']['name']);
+		
+		//echo $file_to_upload;
+		//echo $target_file;
 	}
 	
 	
@@ -43,7 +55,7 @@
 		
 		if($uploaded) {
 			$daoA->insert($title, $desc, $image, $url, $show);
-			echo  '{"status":"OK", "message": "Activity successfully inserted"}';
+			echo  '{"status":"OK", "message": "Attività inserita con successo"}';
 		} else {
 			header("HTTP/1.1 500 Internal Server Error");
 			echo($GLOBALS['error']);
@@ -64,7 +76,7 @@
 			//else
 				//$daoA->updateNoImg($id, $title, $desc, $show);
 			
-			echo  '{"status":"OK", "message": "Activity successfully updated"}';
+			echo  '{"status":"OK", "message": "Attività modificata con successo"}';
 		} else {
 			header("HTTP/1.1 500 Internal Server Error");
 			echo($GLOBALS['error']);
@@ -75,7 +87,7 @@
 	//DELETE
 	else if ($type == "D") {
 		$daoA->delete($id);
-		echo  '{"status":"OK", "message": "Activity successfully deleted"}';
+		echo  '{"status":"OK", "message": "Attività cancellata con successo"}';
 	}
 
 ?>
@@ -88,13 +100,13 @@
 		$check = getimagesize($file_to_upload);
 		if(!$check !== false) {
 			$uploadOk = 0;
-			$GLOBALS['error'] = ('{"status":"KO", "message": "Invalid image"}');
+			$GLOBALS['error'] = ('{"status":"KO", "message": "Immagine non valida"}');
 		}
 		
 		// Check if file already exists
 		if (file_exists($target_file)) {
 			$uploadOk = 0;
-			$GLOBALS['error']  = ('{"status":"KO", "message": "Image already exist"}');
+			$GLOBALS['error']  = ('{"status":"KO", "message": "Immagina già presente"}');
 		}
 		
 		if ($uploadOk == 0) {
@@ -107,10 +119,11 @@
 				return true;
 			} else {
 				//header("HTTP/1.1 500 Internal Server Error");
-				$GLOBALS['error']  = ('{"status":"KO", "message": "Error uploading"}');
+				$GLOBALS['error']  = ('{"status":"KO", "message": "Errore Caricamento immagine"}');
 				//echo($error);
 				return false;
 			}
 		}
 	}
+	
 ?>

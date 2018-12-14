@@ -49,7 +49,7 @@
 		*/
 	}
 	
-	$outp = '{"staff": ['.$outp.']}';
+	$outp = '['.$outp.']';
 	echo($outp);
 		
 ?>
