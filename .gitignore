@@ -3,4 +3,7 @@
 /images
 /imgUploaded
 /galleries
-/manager
+/manager/css
+/manager/img
+/manager/script
+/manager/*.php

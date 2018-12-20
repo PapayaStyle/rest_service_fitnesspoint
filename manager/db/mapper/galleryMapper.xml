@@ -1,39 +1,40 @@
 <query name="selectAll">
-	select ID, PREVIEW, IMG, SHOWED, PAGE
+	select ID, THUMBNAIL	, PREVIEW, IMG, SHOWED, PAGE
 	from GALLERY
 </query>
 
 <query name="selectAllByPage">
-	select ID, PREVIEW, IMG, SHOWED, PAGE
+	select ID, THUMBNAIL	, PREVIEW, IMG, PAGE
 	from GALLERY
 	where PAGE = ?
 </query>
 
 <query name="selectToShowByPage">
-	select ID, PREVIEW, IMG, SHOWED, PAGE
+	select ID, THUMBNAIL, PREVIEW, IMG, SHOWED, PAGE
 	from GALLERY
 	where SHOWED = 1
 		and PAGE = ?
 </query>
 
-<query name="selectByIds">
-	select ID, PREVIEW, IMG, SHOWED, PAGE
+<query name="selectById">
+	select ID, THUMBNAIL	, PREVIEW, IMG, SHOWED, PAGE
 	from GALLERY
-	where ID in (
+	where ID = ?
 </query>
 
 <query name="insert">
-	insert into GALLERY (PREVIEW, IMG, SHOWED, PAGE)
-	values (?, ?, ?, ?)
+	insert into GALLERY (THUMBNAIL	, PREVIEW, IMG, SHOWED, PAGE)
+	values (?, ?, ?, ?, ?)
 </query>
 
 <query name="update">
 	update GALLERY
-	set SHOWED = ?
-	where ID in (
+	set SHOWED = ?,
+		  PAGE = ?
+	where ID ? ?
 </query>
 
 <query name="delete">
 	delete from GALLERY
-	where ID in (
+	where ID = ?
 </query>

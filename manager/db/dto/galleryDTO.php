@@ -3,6 +3,7 @@
 class GalleryDTO{
 	
 	private $id;
+	private $thumbnail;
 	private $preview;
 	private $img;
 	private $showed;
@@ -14,6 +15,9 @@ class GalleryDTO{
 
 	public function getId(){
 		return $this->id;
+	}
+	public function getThumbnail(){
+		return $this->thumbnail;
 	}
 	public function getPreview(){
 		return $this->preview;
@@ -31,6 +35,9 @@ class GalleryDTO{
 	public function setId($id){
 		$this->id = $id;
 	}
+	public function setThumbnail($thumbnail){
+		$this->thumbnail = $thumbnail;
+	}
 	public function setPreview($preview){
 		$this->preview = $preview;
 	}
@@ -43,7 +50,6 @@ class GalleryDTO{
 	public function setPage($page){
 		$this->page = $page;
 	}
-	
 }
 
 ?>

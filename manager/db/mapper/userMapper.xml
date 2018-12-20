@@ -2,12 +2,12 @@
 	select ID, USERNAME
 	from USER
 	where USERNAME = ?
-	and PASSWORD = ?
+		and PASSWORD = ?
 </query>
 
 <query name="checkUser">
 	select count(*)
 	from USER
 	where ID = ?
-	and USERNAME = ?
+		and USERNAME = ?
 </query>

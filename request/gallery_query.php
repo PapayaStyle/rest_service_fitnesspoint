@@ -12,9 +12,11 @@
 		
 		if ($outp != "") {$outp .= ",";}
 		
-		$outp .=  '{"small": "'.$img->getPreview().'",';
-		$outp .=  '"medium": "'.$img->getImg().'",';
-		$outp .=  '"big": "'.$img->getImg().'"}';
+		$outp .=  '{"id": "'.$img->getId().'",';
+		$outp .=  '"thumbnail": "'.$img->getThumbnail().'",';
+		$outp .=  '"preview": "'.$img->getPreview().'",';
+		$outp .=  '"image": "'.$img->getImg().'",';
+		$outp .=  '"show": "'.$img->getShowed().'"}';
 		
 	}
 	

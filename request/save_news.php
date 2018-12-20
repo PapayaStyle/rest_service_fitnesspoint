@@ -1,8 +1,18 @@
 <?php
 	require 'request.php';	
-	include $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/newsDAO.php";
+	require_once 'jwt_helper.php';
+	require_once "utils.php";
+	require_once $_SERVER['DOCUMENT_ROOT'].'/manager/db/dao/userDAO.php';
+	require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/newsDAO.php";
 	
 	$GLOBALS['error'] = '';
+	
+	if(!validateToken()) {
+		header("HTTP/1.1 500 Internal Server Error");
+		echo $GLOBALS['error'];
+		exit();
+	}
+	
 	$target_dir = $_SERVER['DOCUMENT_ROOT']."/images/";
 	$defaultImage = '/images/default.jpg';
 	
@@ -39,8 +49,6 @@
 		$image =  "/images/".basename($_FILES['file']['name']);
 	}
 	
-	//echo "id: ".$id."\ntitle: ".$title."\ndesc: ".$desc."\nurl: ".$url."\nimage: ".$image."\ndate: ".$date."\n";
-	
 	$daoNews = new NewsDAO();
 	
 	$uploaded = true;
@@ -52,14 +60,13 @@
 			
 			if($uploaded) {
 				$daoNews->insert($title, $desc, $image, $url, $date, $show);
-				echo  '{"status":"OK", "message": "Staff inserito con successo"}';
+				responseSuccess("Staff inserito con successo");
 			} else {
-				header("HTTP/1.1 500 Internal Server Error");
-				echo($GLOBALS['error']);
+				responseError($GLOBALS['error']);
 			}
 		} else {
 			$daoNews->insert($title, $desc, $image, $url, $date, $show);
-			echo  '{"status":"OK", "message": "Staff inserito con successo"}';
+			responseSuccess("Staff inserito con successo");
 		}
 		
 	}
@@ -71,14 +78,10 @@
 		}
 		
 		if($uploaded) {
-			//check if the image must be updated
-			//if(isset($image))
 			$daoNews->update($id, $title, $desc, $image, $url, $date, $show);
-			
-			echo  '{"status":"OK", "message": "Staff modificato con successo"}';
+			responseSuccess("Staff modificato con successo");
 		} else {
-			header("HTTP/1.1 500 Internal Server Error");
-			echo($GLOBALS['error']);
+			responseError($GLOBALS['error']);
 		}
 		
 	}
@@ -86,42 +89,7 @@
 	//DELETE
 	else if ($type == "D") {
 		$daoNews->deleteById($id);
-		echo  '{"status":"OK", "message": "Staff cancellato con successo"}';
+		responseSuccess("Staff cancellato con successo");
 	}
 
-?>
-
-<?php	
-	function uploadFile($file_to_upload, $target_file) {
-		//Check if image file is a actual image or fake image
-		$uploadOk = 1;
-
-		$check = getimagesize($file_to_upload);
-		if(!$check !== false) {
-			$uploadOk = 0;
-			$GLOBALS['error'] = ('{"status":"KO", "message": "Immagine non valida"}');
-		}
-		
-		// Check if file already exists
-		if (file_exists($target_file)) {
-			$uploadOk = 0;
-			$GLOBALS['error']  = ('{"status":"KO", "message": "Immagina già presente"}');
-		}
-		
-		if ($uploadOk == 0) {
-			//header("HTTP/1.1 500 Internal Server Error");
-			//echo($error);
-			return false;
-		} else {
-			if (move_uploaded_file($file_to_upload, $target_file)) {
-				//echo('{"status":"OK", "message": "OK"}');
-				return true;
-			} else {
-				//header("HTTP/1.1 500 Internal Server Error");
-				$GLOBALS['error']  = ('{"status":"KO", "message": "Errore Caricamento immagine"}');
-				//echo($error);
-				return false;
-			}
-		}
-	}
 ?>

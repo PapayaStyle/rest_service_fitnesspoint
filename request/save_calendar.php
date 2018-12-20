@@ -1,6 +1,15 @@
 <?php
 	require 'request.php';	
-	include $_SERVER['DOCUMENT_ROOT'].'/manager/db/dao/CalendarActivityDAO.php';
+	require_once 'jwt_helper.php';
+	require_once "utils.php";
+	require_once $_SERVER['DOCUMENT_ROOT'].'/manager/db/dao/userDAO.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/manager/db/dao/CalendarActivityDAO.php';
+	
+	$GLOBALS['error'] = '';
+	
+	if(!validateToken()) {
+		responseError($GLOBALS['error']);
+	}	
 	 
 	$json = file_get_contents('php://input');
 	//$putdata = fopen("php://input", "r");
@@ -54,18 +63,11 @@
 		//echo "\n";
 	}
 	
-	/*
-	foreach ($dtoList as $dto){
-		echo $dto->getTime(). "\t".$dto->getDay()."\t".$dto->getActivity()."\n";
-	}
-	*/
-	
 	try {
-		insertAll($dtoList) ;
-		echo('{"status":"OK", "message": "Calendario inserito con successo"}');
+		insertAll($dtoList);
+		responseSuccess("Calendario inserito con successo");
 	} catch(Exception $e) {
-		header("HTTP/1.1 500 Internal Server Error");
-		$error = '{"status": 404, "message": "Error during request"}';
+		responseError($GLOBALS['error']);
 	}
 	
 	function prepareCalendarDto($time, $day, $activity, $note) {

@@ -22,20 +22,20 @@ class GalleryDAO{
 		return $this->mapper->selectToShowByPage($page);
 	}
 	
-	public function selectByIds($ids) {
-		return $this->mapper->selectByIds($ids);
+	public function selectByIds($id) {
+		return $this->mapper->selectById($id);
 	}
 	
-	public function insert($preview, $img, $showed, $page)  {
-		return $this->mapper->insert($preview, $img, $showed, $page);
+	public function insert($thumbnail, $preview, $img, $showed, $page)  {
+		return $this->mapper->insert($thumbnail, $preview, $img, $showed, $page);
 	}
 	
-	public function update($ids, $showed) {
-		return $this->mapper->update($ids, $showed);
+	public function update($id, $showed, $page) {
+		return $this->mapper->update($ids, $showed, $page);
 	}
 	
-	public function delete($ids) {
-		return $this->mapper->delete($ids);
+	public function delete($id) {
+		return $this->mapper->delete($id);
 	}
 	
 }

@@ -23,12 +23,13 @@ class GalleryMapper {
 		if( $stmt = $this->conn -> prepare($query) ){
 			
 			$stmt->execute();
-			$stmt->bind_result($id, $preview, $img, $showed, $page);
+			$stmt->bind_result($id, $thumbnail, $preview, $img, $showed, $page);
 			
 			$dtoList = array();
 			while( $stmt->fetch() ){
 				$dto = new GalleryDTO();	
 				$dto->setId($id);
+				$dto->setThumbnail($thumbnail);
 				$dto->setPreview($preview);
 				$dto->setImg($img);
 				$dto->setShowed($showed);
@@ -57,12 +58,13 @@ class GalleryMapper {
 			$stmt->bind_param("s", $page);
 			
 			$stmt->execute();
-			$stmt->bind_result($id, $preview, $img, $showed, $page);
+			$stmt->bind_result($id, $thumbnail, $preview, $img, $showed, $page);
 			
 			$dtoList = array();
 			while( $stmt->fetch() ){
 				$dto = new GalleryDTO();	
 				$dto->setId($id);
+				$dto->setThumbnail($thumbnail);
 				$dto->setPreview($preview);
 				$dto->setImg($img);
 				$dto->setShowed($showed);
@@ -94,12 +96,13 @@ class GalleryMapper {
 			$stmt->bind_param("s", $page);
 			
 			$stmt->execute();
-			$stmt->bind_result($id, $preview, $img, $showed, $page);
+			$stmt->bind_result($id, $thumbnail, $preview, $img, $showed, $page);
 			
 			$dtoList = array();
 			while( $stmt->fetch() ){
 				$dto = new GalleryDTO();	
 				$dto->setId($id);
+				$dto->setThumbnail($thumbnail);
 				$dto->setPreview($preview);
 				$dto->setImg($img);
 				$dto->setShowed($showed);
@@ -118,21 +121,22 @@ class GalleryMapper {
 		return $dtoList;
 	}
 	
-	public function selectByIds($ids) {
+	public function selectById($id) {
 		$this->conn->start();
 		
-		$query = $this->extractor->extractByName("selectByIds");
-		$query = $query.$ids.")";
+		$query = $this->extractor->extractByName("selectById");
 		
 		if( $stmt = $this->conn -> prepare($query) ){
 			
+			$stmt->bind_param("i", $id);
 			$stmt->execute();
-			$stmt->bind_result($id, $preview, $img, $showed, $page);
+			$stmt->bind_result($id, $thumbnail, $preview, $img, $showed, $page);
 			
 			$dtoList = array();
 			while( $stmt->fetch() ){
 				$dto = new GalleryDTO();	
 				$dto->setId($id);
+				$dto->setThumbnail($thumbnail);
 				$dto->setPreview($preview);
 				$dto->setImg($img);
 				$dto->setShowed($showed);
@@ -151,14 +155,14 @@ class GalleryMapper {
 		return $dtoList;
 	}
 	
-	public function insert($preview, $img, $showed, $page) {
+	public function insert($thumbnail, $preview, $img, $showed, $page) {
 		$this->conn->start();
 
 		$query = $this->extractor->extractByName("insert");
 
 		if ($stmt = $this->conn->prepare($query)) {
 		
-			$stmt->bind_param("ssis", $preview, $img, $showed, $page);
+			$stmt->bind_param("sssis", $thumbnail, $preview, $img, $showed, $page);
 
 			$stmt->execute() or die($this->conn->error());
 			$_SESSION['error'] = $this->conn->error();
@@ -169,17 +173,14 @@ class GalleryMapper {
 		$this->conn->close();
 	}
 	
-	public function update($ids, $showed) {
+	public function update($id, $showed, $page) {
 		$this->conn->start();
 
 		$query = $this->extractor->extractByName("update");
-		$query = $query.$ids.")";
 
 		if ($stmt = $this->conn->prepare($query)) {
-
-			$stmt->execute();
 		
-			$stmt->bind_param("i", $showed);
+			$stmt->bind_param("is", $showed, $page, $id);
 
 			$stmt->execute() or die($this->conn->error());
 			$_SESSION['error'] = $this->conn->error();
@@ -188,15 +189,14 @@ class GalleryMapper {
 		}		
 	}
 	
-	public function delete($ids) {
+	public function delete($id) {
 		$this->conn->start();
 
 		$query = $this->extractor->extractByName("delete");
-		$query = $query.$ids.")";
 		
 		if ($stmt = $this->conn->prepare($query)) {
 
-			$stmt->execute();
+			$stmt->bind_param("i", $id);
 
 			$stmt->execute() or die($this->conn->error());
 			$_SESSION['error'] = $this->conn->error();

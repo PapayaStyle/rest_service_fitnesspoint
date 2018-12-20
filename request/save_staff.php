@@ -1,8 +1,16 @@
 <?php
-	require 'request.php';	
-	include $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/staffDAO.php";
+	require 'request.php';		
+	require_once 'jwt_helper.php';
+	require_once "utils.php";
+	require_once $_SERVER['DOCUMENT_ROOT'].'/manager/db/dao/userDAO.php';
+	require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/staffDAO.php";
 	
 	$GLOBALS['error'] = '';
+	
+	if(!validateToken()) {
+		responseError($GLOBALS['error']);
+	}
+	
 	$target_dir = $_SERVER['DOCUMENT_ROOT']."/images/";
 	$defaultImage = '/images/default.jpg';
 	
@@ -37,7 +45,7 @@
 	
 	$uploaded = true;
 	
-	// INSERTì
+	// INSERT
 	if ($type == "I") {
 		if($doUpload) {
 			$uploaded = uploadFile($file_to_upload, $target_file);
@@ -45,10 +53,14 @@
 		
 		if($uploaded) {
 			$daoStaff->insert($name, $act, $desc, $image, $show);
-			echo  '{"status":"OK", "message": "Staff inserito con successo"}';
+			//echo  '{"status":"OK", "message": "Staff inserito con successo"}';
+			responseSuccess("Staff inserito con successo");
 		} else {
+			/*
 			header("HTTP/1.1 500 Internal Server Error");
 			echo($GLOBALS['error']);
+			*/
+			responseError($GLOBALS['error']);
 		}
 		
 	}
@@ -61,10 +73,14 @@
 		
 		if($uploaded) {
 			$daoStaff->update($id, $name, $act, $desc, $image, $show);
-			echo  '{"status":"OK", "message": "Staff modificato con successo"}';
+			//echo  '{"status":"OK", "message": "Staff modificato con successo"}';
+			responseSuccess("Staff modificato con successo");
 		} else {
+			/*
 			header("HTTP/1.1 500 Internal Server Error");
 			echo($GLOBALS['error']);
+			*/
+			responseError($GLOBALS['error']);
 		}
 		
 	}
@@ -72,42 +88,8 @@
 	//DELETE
 	else if ($type == "D") {
 		$daoStaff->deleteById($id);
-		echo  '{"status":"OK", "message": "Staff cancellato con successo"}';
+		//echo  '{"status":"OK", "message": "Staff cancellato con successo"}';
+		responseSuccess("Staff cancellato con successo");
 	}
 
-?>
-
-<?php	
-	function uploadFile($file_to_upload, $target_file) {
-		//Check if image file is a actual image or fake image
-		$uploadOk = 1;
-
-		$check = getimagesize($file_to_upload);
-		if(!$check !== false) {
-			$uploadOk = 0;
-			$GLOBALS['error'] = ('{"status":"KO", "message": "Immagine non valida"}');
-		}
-		
-		// Check if file already exists
-		if (file_exists($target_file)) {
-			$uploadOk = 0;
-			$GLOBALS['error']  = ('{"status":"KO", "message": "Immagina già presente"}');
-		}
-		
-		if ($uploadOk == 0) {
-			//header("HTTP/1.1 500 Internal Server Error");
-			//echo($error);
-			return false;
-		} else {
-			if (move_uploaded_file($file_to_upload, $target_file)) {
-				//echo('{"status":"OK", "message": "OK"}');
-				return true;
-			} else {
-				//header("HTTP/1.1 500 Internal Server Error");
-				$GLOBALS['error']  = ('{"status":"KO", "message": "Errore Caricamento immagine"}');
-				//echo($error);
-				return false;
-			}
-		}
-	}
 ?>
