@@ -167,7 +167,12 @@
 	}
 	
 	function responseSuccess($message) {
-		echo '{"status":"200", "statusText": "OK", "message": "'.$message.'"}';
+		$success['status'] = 200;
+		$success['statusText'] = "OK";
+		$success['message'] = $message;
+		
+		echo json_encode($success);
+		//echo '{"status":"200", "statusText": "OK", "message": "'.$message.'"}';
 	}
 	
 ?>
