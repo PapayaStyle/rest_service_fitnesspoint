@@ -1,7 +1,7 @@
 <?php
 	require 'request.php';
 	
-	include $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/staffDAO.php";
+	include $_SERVER['DOCUMENT_ROOT']."/db/dao/staffDAO.php";
 	
 	//$data = json_decode($_POST['data']);
 	//$req = $data->req;
@@ -42,11 +42,12 @@
 		$outp .=  '"image": "'.$img.'",';
 		$img = "";
 		
+		$portrait = str_replace( 'img', 'images', $staff->getPortrait());
+		$outp .=  '"portrait": "'.$portrait.'",';
+		$portrait = "";
+		
 		$outp .=  '"show": "'.$staff->getShow().'"}';
 		
-		/*
-		{ name: 'Oliver', activity: 'Spinning e Posturale', desc: 'Guinness World Record TRX, spinning man e posturale', image:'./images/spinning.jpg'},
-		*/
 	}
 	
 	$outp = '['.$outp.']';

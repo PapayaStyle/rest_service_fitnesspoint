@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/pageMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/pageMapper.php";
 
 class PageDAO{
 

@@ -2,8 +2,8 @@
 	require 'request.php';	
 	require_once 'jwt_helper.php';
 	require_once "utils.php";
-	require_once $_SERVER['DOCUMENT_ROOT'].'/manager/db/dao/userDAO.php';
-	require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/activityDAO.php";
+	require_once $_SERVER['DOCUMENT_ROOT'].'/db/dao/userDAO.php';
+	require_once $_SERVER['DOCUMENT_ROOT']."/db/dao/activityDAO.php";
 	
 	$GLOBALS['error'] = '';
 	
@@ -11,7 +11,7 @@
 		responseError($GLOBALS['error']);
 	}
 	
-	$target_dir = $_SERVER['DOCUMENT_ROOT']."/imgUploaded/";
+	$target_dir = $_SERVER['DOCUMENT_ROOT']."/images/activity/";
 	$defaultImage = '/images/default.jpg';
 	
 	//print_r(json_decode($_POST['data'], true));
@@ -27,6 +27,7 @@
 	$url = $body['video'];
 	$show = $body['show'];
 	$type = $body['type'];
+	$currentImage = $body['image'];
 	
 	if ($type == "I")
 		$image = $defaultImage;
@@ -36,11 +37,21 @@
 	$file_to_upload = null;
 	$target_file = null;
 	
-	$doUpload = isset($_FILES['file']);
+	//$doUpload = isset($_FILES['file']);
+	$post_file = $_POST['file'];
+	$file_json = json_decode($post_file, true);
+	$doUpload = !isEmpty($post_file);
 	if($doUpload) {
-		$file_to_upload = $_FILES['file']['tmp_name'];
-		$target_file = $target_dir . basename($_FILES['file']['name']);
-		$image =  "/images/".basename($_FILES['file']['name']);
+		$file_to_upload = $file_json['dataURL'];
+		$target_file = $target_dir . basename($file_json['name']);
+		$image =  "/images/activity/".basename($file_json['name']);
+		
+		//$file_to_upload = $_FILES['file']['tmp_name'];
+		//$target_file = $target_dir . basename($_FILES['file']['name']);
+		//$image =  "/images/activity/".basename($_FILES['file']['name']);
+		
+		//$tmp_dir = $target_dir."tmp_".basename($_FILES['file']['name']);
+		//$tmp = "/images/activity/tmp_".basename($_FILES['file']['name']);
 	}
 	
 	$daoA = new ActivityDAO();
@@ -50,7 +61,11 @@
 	// INSERT
 	if ($type == "I") {
 		if($doUpload) {
-			$uploaded = uploadFile($file_to_upload, $target_file);
+			//$uploaded = resizeAndUpload($currentImage, $file_to_upload, $tmp, $tmp_dir, $target_file, 500, 350);
+			$uploaded = uploadBase64($target_file, $file_to_upload, $file_json['type'], $currentImage);
+			if ( !$uploaded ) { 
+				responseError($GLOBALS['error']); 
+			}
 		}
 		
 		if($uploaded) {
@@ -65,7 +80,11 @@
 	// UPDATE
 	else if ($type == "U") {
 		if($doUpload) {
-			$uploaded = uploadFile($file_to_upload, $target_file);
+			//$uploaded = resizeAndUpload($currentImage, $file_to_upload, $tmp, $tmp_dir, $target_file, 500, 350);
+			$uploaded = uploadBase64($target_file, $file_to_upload, $file_json['type'], $currentImage);
+			if ( !$uploaded ) { 
+				responseError($GLOBALS['error']); 
+			}
 		}
 		
 		if($uploaded) {
@@ -80,6 +99,10 @@
 	//DELETE
 	else if ($type == "D") {
 		$daoA->delete($id);
+		// delete old image
+		if (file_exists($_SERVER['DOCUMENT_ROOT'].$currentImage)) {
+			if ( !deleteFile($currentImage) ) { responseError($GLOBALS['error']); }
+		}
 		responseSuccess("Attività cancellata con successo");
 	}
 

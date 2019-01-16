@@ -1,6 +1,6 @@
 <?php
 	require 'request.php';
-	include $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/newsDAO.php";
+	include $_SERVER['DOCUMENT_ROOT']."/db/dao/newsDAO.php";
 	
 	//$data = json_decode($_GET['data']);
 	//$req = $data->req;

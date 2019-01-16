@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/tableViewMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/tableViewMapper.php";
 
 class TableVieWDAO{
 

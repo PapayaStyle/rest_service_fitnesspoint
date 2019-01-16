@@ -2,7 +2,7 @@
 	require 'request.php';
 	require 'jwt_helper.php';
 	
-	include $_SERVER['DOCUMENT_ROOT'].'/manager/db/dao/userDAO.php';	
+	include $_SERVER['DOCUMENT_ROOT'].'/db/dao/userDAO.php';	
 	 
 	$json = file_get_contents('php://input');
 	$obj = json_decode($json, true);

@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/boxArticleMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/boxArticleMapper.php";
 
 class BoxArticleDAO{
 

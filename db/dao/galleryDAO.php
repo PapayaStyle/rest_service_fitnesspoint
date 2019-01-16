@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/galleryMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/galleryMapper.php";
 
 class GalleryDAO{
 

@@ -1,7 +1,7 @@
 <?php
 	require 'request.php';
 	
-	include $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/tableViewDAO.php";
+	include $_SERVER['DOCUMENT_ROOT']."/db/dao/tableViewDAO.php";
 
 	$daoTW = new TableViewDAO();
 	$listTime = $daoTW->getDistinctTime();

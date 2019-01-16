@@ -1,10 +1,10 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/system/connection.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/QueryExtractor.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/system/connection.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/QueryExtractor.php";
 
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/dto/tableViewDTO.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/dto/calendarActivityDTO.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/dto/tableViewDTO.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/dto/calendarActivityDTO.php";
 
 class TableViewMapper{
 

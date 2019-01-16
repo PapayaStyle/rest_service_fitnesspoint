@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/calendarActivityMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/calendarActivityMapper.php";
 
 class CalendarActivityDAO{
 

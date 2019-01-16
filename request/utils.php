@@ -104,12 +104,62 @@
 		}
 	}
 	
+	function uploadBase64($target_file, $base64_encoded, $type, $currentImage) {
+		/*
+		echo "uploadBase64\n";
+		echo $target_file;
+		echo "\n";
+		echo $base64_encoded;
+		echo "\n";
+		echo $type;
+		echo "\n";
+		*/
+		if ( !empty($currentImage) && file_exists($_SERVER['DOCUMENT_ROOT'].$currentImage) ) {
+			if ( !deleteFile($currentImage) ) { responseError($GLOBALS['error']); }
+		}
+		
+		$uploadOk = 1;
+		
+		// Check if file already exists
+		if (file_exists($target_file)) {
+			$uploadOk = 0;
+			$GLOBALS['error']  = ('Immagine già presente');
+		}
+		
+		if ($type != 'image/jpeg' && $type != 'image/gif' && $type != 'image/png') {
+			$uploadOk = 0;
+			$GLOBALS['error']  = ('Formato immagine non valido');
+		}
+		
+		$data = str_replace('data:'.$type.';base64,', '', $base64_encoded);
+		$data = base64_decode($data);
+		
+		if ($uploadOk == 0) {
+			return false;
+		} else {
+			if (file_put_contents($target_file, $data)) {
+				return true;
+			} else {
+				$GLOBALS['error']  = ('Errore Caricamento immagine');
+				return false;
+			}
+		}
+	}
+	
 	/**
 	 * resize and upload image to server
 	 * return success true or false
 	 */
 	function resizeImage($pathToImages, $pathToThumbs, $w, $h) {
-		$img = imagecreatefromjpeg($pathToImages);
+		$info = getimagesize($pathToImages);
+		 if ($info['mime'] == 'image/jpeg') 
+			$img = imagecreatefromjpeg($pathToImages);
+		else if ($info['mime'] == 'image/gif') 
+			$img = imagecreatefromgif($pathToImages);
+		else if ($info['mime'] == 'image/png') 
+			$img = imagecreatefrompng($pathToImages);
+			
+		//$img = imagecreatefromjpeg($pathToImages);
 		$width = imagesx($img);
 		$height = imagesy($img);
 		
@@ -133,12 +183,39 @@
 		$resized = imagecopyresized($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 		
 		// save thumbnail into a file
-		if(imagejpeg($tmp_img, $pathToThumbs)) {
+		if(imagejpeg($tmp_img, $pathToThumbs, 75)) {
 			return true;
 		} else {
 			$GLOBALS['error']  = ('Errore durante upload e ridimensionamento immagine');
 			return false;
 		}
+	}
+	
+	function portraitCropImage($target_file, $sizeX, $sizeY, $portrait) {
+		$info = getimagesize($target_file);
+		if ($info['mime'] == 'image/jpeg') 
+			$img = imagecreatefromjpeg($target_file);
+		else if ($info['mime'] == 'image/gif') 
+			$img = imagecreatefromgif($target_file);
+		else if ($info['mime'] == 'image/png') 
+			$img = imagecreatefrompng($target_file);
+		
+		$crop_width = imagesx($img);
+		$crop_height = imagesy($img);
+		
+		$newx = $sizeX;
+		if($crop_width >= $sizeX) {
+			$newx= ($crop_width-$sizeX)/2;
+		}
+		
+		$newy = $sizeX;
+		if($crop_height >= $sizeY) {
+			$newy= ($crop_height-$sizeY)/2;
+		}
+		
+		$im2 = imagecrop($img, ['x' => $newx, 'y' => $newy, 'width' => $sizeX, 'height' => $sizeY]);
+		
+		$crop = imagejpeg($im2, $portrait, 90);
 	}
 	
 	function deleteFile($filePath) {
@@ -153,6 +230,40 @@
 			return false;
 		}
 		
+		return true;
+	}
+	
+	function resizeAndUpload($currentImage, $originalFile, $tmp_file, $tmp_dir, $resize_file, $w, $h) {
+		// delete old image before upload new
+		if ( !empty($currentImage) && file_exists($_SERVER['DOCUMENT_ROOT'].$currentImage) ) {
+			if ( !deleteFile($currentImage) ) { responseError($GLOBALS['error']); }
+		}
+		
+		$uploaded = uploadFile($originalFile, $tmp_dir);
+		if(!$uploaded) {
+			return false;
+		}
+		
+		$resize = resizeImage($tmp_dir, $resize_file, $w, $h);
+		if(!$resize) {
+			return false;
+		}
+		
+		if ( !deleteFile($tmp_file) ) { 
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function isEmpty($val) {
+		//echo $val;
+		//echo "\n";
+		if(isset($val) && $val != null && $val != "null" && $val != "") {
+			//echo "false";
+			return false;
+		}
+		//echo "true";
 		return true;
 	}
 	
@@ -172,7 +283,6 @@
 		$success['message'] = $message;
 		
 		echo json_encode($success);
-		//echo '{"status":"200", "statusText": "OK", "message": "'.$message.'"}';
 	}
 	
 ?>

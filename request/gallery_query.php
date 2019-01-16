@@ -1,7 +1,7 @@
 <?php
 	require 'request.php';
 	
-	include $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/galleryDAO.php";
+	include $_SERVER['DOCUMENT_ROOT']."/db/dao/galleryDAO.php";
 	
 	$daoG = new GalleryDAO();
 	$images = $daoG->getAllToShowByPage("gallery");

@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/newsMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/newsMapper.php";
 
 class NewsDAO{
 

@@ -7,6 +7,7 @@ class StaffDTO{
 	private $activity;
 	private $des;
 	private $img;
+	private $portrait;
 	private $show;
 	
 	public function __construct(){
@@ -28,6 +29,9 @@ class StaffDTO{
 	public function setImg($img){
 		$this->img = $img;
 	}
+	public function setPortrait($portrait){
+		$this->portrait = $portrait;
+	}
 	public function setShow($show){
 		$this->show = $show;
 	}
@@ -46,6 +50,9 @@ class StaffDTO{
 	}
 	public function getImg(){
 		return $this->img;
+	}
+	public function getPortrait(){
+		return $this->portrait;
 	}
 	public function getShow(){
 		return $this->show;

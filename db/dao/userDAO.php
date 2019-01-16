@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/userMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/userMapper.php";
 
 class UserDAO{
 

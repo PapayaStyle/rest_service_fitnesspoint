@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/activityMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/activityMapper.php";
 
 class ActivityDAO{
 

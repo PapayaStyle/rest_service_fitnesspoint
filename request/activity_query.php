@@ -1,7 +1,7 @@
 <?php
 	require 'request.php';
 	
-	include $_SERVER['DOCUMENT_ROOT']."/manager/db/dao/activityDAO.php";
+	include $_SERVER['DOCUMENT_ROOT']."/db/dao/activityDAO.php";
 	
 	//$data = json_decode($_POST['data']);
 	//$req = $data->req;

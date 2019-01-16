@@ -1,8 +1,8 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/system/connection.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/QueryExtractor.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/dto/staffDTO.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/system/connection.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/QueryExtractor.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/dto/staffDTO.php";
 
 class StaffMapper {
 
@@ -23,7 +23,7 @@ class StaffMapper {
       if ($stmt = $this->conn->prepare($query)) {
 
          $stmt->execute();
-         $stmt->bind_result($id, $name, $activity, $des, $img, $show);
+         $stmt->bind_result($id, $name, $activity, $des, $img, $portrait, $show);
 
          $dtoList = array();
 
@@ -35,6 +35,7 @@ class StaffMapper {
 			$dto->setActivity($activity);
             $dto->setDes($des);
             $dto->setImg($img);
+			$dto->setPortrait($portrait);
 			$dto->setShow($show);
 
             $dtoList[] = $dto;
@@ -58,7 +59,7 @@ class StaffMapper {
       if ($stmt = $this->conn->prepare($query)) {
 
          $stmt->execute();
-         $stmt->bind_result($id, $name, $activity, $des, $img, $show);
+         $stmt->bind_result($id, $name, $activity, $des, $img, $portrait, $show);
 
          $dtoList = array();
 
@@ -70,6 +71,7 @@ class StaffMapper {
 			$dto->setActivity($activity);
             $dto->setDes($des);
             $dto->setImg($img);
+			$dto->setPortrait($portrait);
 			$dto->setShow($show);
 
             $dtoList[] = $dto;
@@ -84,14 +86,14 @@ class StaffMapper {
       return $dtoList;
    }
    
-	public function insert($name, $act, $desc, $img, $show) {
+	public function insert($name, $act, $desc, $img, $portrait, $show) {
 		$this->conn->start();
 
 		$query = $this->extractor->extractByName("insert");
 
 		if ($stmt = $this->conn->prepare($query)) {
 
-			$stmt->bind_param("ssssi", $name, $act, $desc, $img, $show);
+			$stmt->bind_param("sssssi", $name, $act, $desc, $img, $portrait, $show);
 
 			$stmt->execute() or die($this->conn->error());
 			
@@ -102,7 +104,7 @@ class StaffMapper {
 		$this->conn->close();
 	}
 	
-	public function update($id, $name, $act, $desc, $img, $show) {
+	public function update($id, $name, $act, $desc, $img, $portrait, $show) {
 		$this->conn->start();
 
 		$query = $this->extractor->extractByName("update");
@@ -111,7 +113,7 @@ class StaffMapper {
 
 			$stmt->execute();
 
-			$stmt->bind_param("ssssii", $name, $act, $desc, $img, $show, $id);
+			$stmt->bind_param("sssssii", $name, $act, $desc, $img, $portrait, $show, $id);
 
 			$stmt->execute() or die($this->conn->error());
 			

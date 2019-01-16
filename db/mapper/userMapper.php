@@ -1,8 +1,8 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/system/connection.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/QueryExtractor.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/dto/userDTO.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/system/connection.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/QueryExtractor.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/dto/userDTO.php";
 
 class UserMapper{
 

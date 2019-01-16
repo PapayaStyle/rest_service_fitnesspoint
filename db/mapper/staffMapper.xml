@@ -1,19 +1,19 @@
 <query name="selectAll">
-	select ID, NAME, ACTIVITY, DESCRIPTION, IMG, SHOWED
+	select ID, NAME, ACTIVITY, DESCRIPTION, IMG, PORTRAIT, SHOWED
 	from STAFF 
 	order by NAME asc
 </query>
 
 <query name="selectAllToShow">
-	select ID, NAME, ACTIVITY, DESCRIPTION, IMG, SHOWED
+	select ID, NAME, ACTIVITY, DESCRIPTION, IMG, PORTRAIT, SHOWED
 	from STAFF 
 	WHERE SHOWED = 1
 	order by NAME asc
 </query>
 
 <query name="insert">
-	insert into STAFF (NAME, ACTIVITY, DESCRIPTION, IMG, SHOWED)
-	values (?, ?, ?, ?, ?)
+	insert into STAFF (NAME, ACTIVITY, DESCRIPTION, IMG, PORTRAIT, SHOWED)
+	values (?, ?, ?, ?, ?, ?)
 </query>
 
 <query name="update">
@@ -22,6 +22,7 @@
 			ACTIVITY = ?, 
 			DESCRIPTION = ?, 
 			IMG = ?, 
+			PORTRAIT = ?, 
 			SHOWED = ?
 	where ID = ?
 </query>

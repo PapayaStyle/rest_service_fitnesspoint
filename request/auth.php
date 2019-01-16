@@ -1,7 +1,7 @@
 <?php
 	require_once 'request.php';
 	require_once 'jwt_helper.php';
-	require_once $_SERVER['DOCUMENT_ROOT'].'/manager/db/dao/userDAO.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/db/dao/userDAO.php';
 	
 	require_once "utils.php";
 	

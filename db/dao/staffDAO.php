@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT']."/manager/db/mapper/staffMapper.php";
+include $_SERVER['DOCUMENT_ROOT']."/db/mapper/staffMapper.php";
 
 class StaffDAO{
 
@@ -18,12 +18,12 @@ class StaffDAO{
 		return $this->mapper->selectAllToShow();
 	}
 	
-	public function insert($name, $act, $desc, $img, $show){
-		return $this->mapper->insert($name, $act, $desc, $img, $show);
+	public function insert($name, $act, $desc, $img, $portrait, $show){
+		return $this->mapper->insert($name, $act, $desc, $img, $portrait, $show);
 	}
 	
-	public function update($id, $name, $act, $desc, $img, $show){
-		return $this->mapper->update($id, $name, $act, $desc, $img, $show);
+	public function update($id, $name, $act, $desc, $img, $portrait, $show){
+		return $this->mapper->update($id, $name, $act, $desc, $img, $portrait, $show);
 	}
 	
 	public function deleteById($id){

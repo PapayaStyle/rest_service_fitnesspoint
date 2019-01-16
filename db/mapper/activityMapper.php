@@ -1,19 +1,19 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/system/connection.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/QueryExtractor.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/manager/db/dto/newsDTO.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/system/connection.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/QueryExtractor.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/db/dto/activityDTO.php";
 
-class NewsMapper {
+class ActivityMapper {
 
-	private $conn;
-	private $extractor;
-   
-	public function __construct() {
-		$this->conn = new Connect();
-		$this->extractor = new QueryExtractor("/mapper/newsMapper.xml");
-	}
-   
+   private $conn;
+   private $extractor;
+
+   public function __construct() {
+      $this->conn = new Connect();
+      $this->extractor = new QueryExtractor("/mapper/activityMapper.xml");
+   }
+
 	public function selectAll() {
 
 		$this->conn->start();
@@ -23,20 +23,18 @@ class NewsMapper {
 		if ($stmt = $this->conn->prepare($query)) {
 
 			$stmt->execute();
-			$stmt->bind_result($id, $title, $desc, $img, $url, $date, $show);
+			$stmt->bind_result($id, $name, $des, $img, $url, $show);
 
 			$dtoList = array();
 
 			while ($stmt->fetch()) {
-				$dto = new NewsDTO();
+				$dto = new ActivityDTO();
 				$dto->setId($id);
-				$dto->setTitle($title);
-				$dto->setDesc($desc);
+				$dto->setName($name);
+				$dto->setDes($des);
 				$dto->setImg($img);
 				$dto->setUrl($url);
-				$dto->setDat($date);
 				$dto->setShow($show);
-
 
 				$dtoList[] = $dto;
 			}
@@ -57,18 +55,17 @@ class NewsMapper {
 		if ($stmt = $this->conn->prepare($query)) {
 
 			$stmt->execute();
-			$stmt->bind_result($id, $title, $desc, $img, $url, $date, $show);
+			$stmt->bind_result($id, $name, $des, $img, $url, $show);
 
 			$dtoList = array();
 
 			while ($stmt->fetch()) {
-				$dto = new NewsDTO();
+				$dto = new ActivityDTO();
 				$dto->setId($id);
-				$dto->setTitle($title);
-				$dto->setDesc($desc);
+				$dto->setName($name);
+				$dto->setDes($des);
 				$dto->setImg($img);
 				$dto->setUrl($url);
-				$dto->setDat($date);
 				$dto->setShow($show);
 
 				$dtoList[] = $dto;
@@ -80,61 +77,39 @@ class NewsMapper {
 		$this->conn->close();
 		return $dtoList;
 	}
-   
-	public function selectLastNews() {
+
+	public function selectOne($id) {
 
 		$this->conn->start();
 
-		$query = $this->extractor->extractByName("selectLastNews");
+		$query = $this->extractor->extractByName("selectOne");
 
 		if ($stmt = $this->conn->prepare($query)) {
+
+			$stmt->bind_param("i", $id);
 
 			$stmt->execute();
-			$stmt->bind_result($id, $title, $desc, $img, $url, $date, $show);
+			$stmt->bind_result($id, $name, $des, $img, $url, $show);
 
-			$dtoList = array();
+			$stmt->fetch();
 
-			while ($stmt->fetch()) {
-				$dto = new NewsDTO();
-				$dto->setId($id);
-				$dto->setTitle($title);
-				$dto->setDesc($desc);
-				$dto->setImg($img);
-				$dto->setUrl($url);
-				$dto->setDat($date);
-				$dto->setShow($show);
+			$dto = new ActivityDTO();
+			$dto->setId($id);
+			$dto->setName($name);
+			$dto->setDes($des);
+			$dto->setImg($img);
+			$dto->setUrl($url);
+			$dto->setShow($show);
 
-				$dtoList[] = $dto;
-			}
-			
 			$_SESSION['error'] = $this->conn->error();
 		} else {
 			$_SESSION['error'] = $this->conn->error();
 		}
 		$this->conn->close();
-		return $dtoList;
+		return $dto;
 	}
-	
-	public function insert($title, $desc, $img, $url, $dat, $show) {
 
-		$this->conn->start();
-
-		$query = $this->extractor->extractByName("insert");
-
-		if ($stmt = $this->conn->prepare($query)) {
-
-			$stmt->bind_param("sssssi", $title, $desc, $img, $url, $dat, $show);
-
-			$stmt->execute() or die($this->conn->error());
-			
-			$_SESSION['error'] = $this->conn->error();
-		} else {
-			$_SESSION['error'] = $this->conn->error();
-		}
-		$this->conn->close();
-	}
-	
-	public function update($id, $title, $desc, $img, $url, $dat, $show) {
+	public function update($id, $name, $des, $img, $url, $show) {
 
 		$this->conn->start();
 
@@ -144,7 +119,27 @@ class NewsMapper {
 
 			$stmt->execute();
 
-			$stmt->bind_param("sssssii", $title, $desc, $img, $url, $dat, $show, $id);
+			$stmt->bind_param("ssssii", $name, $des, $img, $url, $show, $id);
+
+			$stmt->execute() or die($this->conn->error());
+			$_SESSION['error'] = $this->conn->error();
+		} else {
+			$_SESSION['error'] = $this->conn->error();
+		}
+		$this->conn->close();
+	}
+	
+	public function updateNoImg($id, $name, $des, $show) {
+
+		$this->conn->start();
+
+		$query = $this->extractor->extractByName("updateNoImg");
+
+		if ($stmt = $this->conn->prepare($query)) {
+
+			$stmt->execute();
+
+			$stmt->bind_param("ssii", $name, $des, $show, $id);
 
 			$stmt->execute() or die($this->conn->error());
 			
@@ -152,18 +147,39 @@ class NewsMapper {
 		} else {
 			$_SESSION['error'] = $this->conn->error();
 		}
+
 		$this->conn->close();
 	}
-   
+	
+	public function insert($name, $des, $img, $url, $show) {
+
+		$this->conn->start();
+
+		$query = $this->extractor->extractByName("insert");
+
+		if ($stmt = $this->conn->prepare($query)) {
+		
+			$stmt->bind_param("ssssi", $name, $des, $img, $url, $show);
+
+			$stmt->execute() or die($this->conn->error());
+			
+			$_SESSION['error'] = $this->conn->error();
+		} else {
+			$_SESSION['error'] = $this->conn->error();
+		}
+
+		$this->conn->close();
+	}
+	
 	public function deleteById($id) {
 
 		$this->conn->start();
 
 		$query = $this->extractor->extractByName("deleteById");
-
+		
 
 		if ($stmt = $this->conn->prepare($query)) {
-
+		
 			$stmt->bind_param("i", $id);
 
 			$stmt->execute() or die($this->conn->error());
@@ -174,6 +190,6 @@ class NewsMapper {
 		}
 		$this->conn->close();
 	}
-	
+   
 }
 ?>
