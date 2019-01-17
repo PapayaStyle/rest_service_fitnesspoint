@@ -38,8 +38,8 @@
 		$outp .=  '"desc": "'.$desc.'",';
 		$desc  = "";
 		
-		$img = str_replace( 'img', 'images', $news->getImg());
-		$outp .=  '"image": "'.$img.'",';
+		//$img = str_replace( 'img', 'images', $news->getImg());
+		$outp .=  '"image": "'.$news->getImg().'",';
 		$img = "";
 		
 		$outp .=  '"video": "'.$news->getUrl().'",';

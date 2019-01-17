@@ -8,15 +8,7 @@
 	$obj = json_decode($json, true);
 	
 	$username = $obj['username'];
-    $password = $obj['password'];
-	 
-	//$post = json_decode($_POST['data']);
-	//$username = $post->username;
-	//$password = $post->password;
-	
-	//$username = $_POST['username'];
-	//$password = $_POST['password'];
-	//echo '{"username:"'.$username.', "password:"'.$password.'}';
+  $password = $obj['password'];
 	
 	$password = openssl_digest($password, 'sha512');
 	
@@ -40,8 +32,8 @@
 		echo($account);
 	}else{
 		header("HTTP/1.1 500 Internal Server Error");
-		$error = '{"status": 404, "message": "Nome utente o password errati!"}';
-		
-		echo($error);
+		//$error = '{"status": 404, "message": "Nome utente o password errati!"}';
+		responseError("Nome utente o password errati!");
+		//echo($error);
 	}
 ?>

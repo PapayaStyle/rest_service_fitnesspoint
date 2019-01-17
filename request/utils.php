@@ -70,7 +70,7 @@
 	}
 
 	/**
-	 * upload image to server
+	 * upload image file to server
 	 * return success true or false
 	 */
 	function uploadFile($file_to_upload, $target_file) {
@@ -103,17 +103,12 @@
 			}
 		}
 	}
-	
+  
+  /**
+   * upload base64 image to server
+   */
 	function uploadBase64($target_file, $base64_encoded, $type, $currentImage) {
-		/*
-		echo "uploadBase64\n";
-		echo $target_file;
-		echo "\n";
-		echo $base64_encoded;
-		echo "\n";
-		echo $type;
-		echo "\n";
-		*/
+
 		if ( !empty($currentImage) && file_exists($_SERVER['DOCUMENT_ROOT'].$currentImage) ) {
 			if ( !deleteFile($currentImage) ) { responseError($GLOBALS['error']); }
 		}
@@ -168,13 +163,13 @@
 		
 		// calculate thumbnail size		
 		if( $new_width > $w ){ 
-            $new_height = ($w / $new_width) * $new_height; 
-            $new_width = $w; 
-        } 
-        if( $new_height > $h ){ 
-            $new_width = ($h / $new_height) * $new_width; 
-            $new_height = $h; 
-        }
+      $new_height = ($w / $new_width) * $new_height; 
+      $new_width = $w; 
+    } 
+    if( $new_height > $h ){ 
+      $new_width = ($h / $new_height) * $new_width; 
+      $new_height = $h; 
+    }
 
 		// create a new temporary image
 		$tmp_img = imagecreatetruecolor($new_width, $new_height);
@@ -257,13 +252,9 @@
 	}
 	
 	function isEmpty($val) {
-		//echo $val;
-		//echo "\n";
 		if(isset($val) && $val != null && $val != "null" && $val != "") {
-			//echo "false";
 			return false;
 		}
-		//echo "true";
 		return true;
 	}
 	

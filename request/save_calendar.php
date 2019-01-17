@@ -89,7 +89,7 @@
 		
 		foreach ($dtoList as $dto) {
 			$daoCA->insert( $dto->getTime(), $dto->getDay(), $dto->getActivity(), $dto->getNote());
-        }
+    }
 	}
 	
 ?>

@@ -39,8 +39,8 @@
 			
 			$firstOut .=  '"link": "'.$nameLink.'",';
 			
-			$img = str_replace( 'img', 'images', $activity->getImg());
-			$firstOut .=  '"image": ".'.$img.'",';
+			//$img = str_replace( 'img', 'images', $activity->getImg());
+			$firstOut .=  '"image": ".'.$activity->getImg().'",';
 			$img = "";
 			
 			$firstOut .=  '"title": "'.$activity->getName().'",';

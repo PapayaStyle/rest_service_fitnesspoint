@@ -38,12 +38,12 @@
 		$outp .=  '"desc": "'.$desc.'",';
 		$desc  = "";
 		
-		$img = str_replace( 'img', 'images', $staff->getImg());
-		$outp .=  '"image": "'.$img.'",';
+		//$img = str_replace( 'img', 'images', $staff->getImg());
+		$outp .=  '"image": "'.$staff->getImg().'",';
 		$img = "";
 		
-		$portrait = str_replace( 'img', 'images', $staff->getPortrait());
-		$outp .=  '"portrait": "'.$portrait.'",';
+		//$portrait = str_replace( 'img', 'images', $staff->getPortrait());
+		$outp .=  '"portrait": "'.$staff->getPortrait().'",';
 		$portrait = "";
 		
 		$outp .=  '"show": "'.$staff->getShow().'"}';
