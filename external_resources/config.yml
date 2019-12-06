@@ -1,0 +1,37 @@
+server:
+  type: default
+  rootPath: /api
+  applicationConnectors:
+    - type: http
+      port: 5000
+
+assets:
+  overrides:
+    /: public/
+
+dateFormat: dd-MM-yyyy HH:mm:ss
+
+endpoint_dynamodb: http://localhost:8000
+aws_region: eu-west-2
+aws_access_key_id: AWS access key ID goes here 
+aws_secret_access_key: Secret key goes here  
+
+# Logging settings.
+logging:
+   # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+    # Sets the level for 'com.example.app' to DEBUG.
+    #it.restservice.gym.fitnesspoint: INFO
+  
+  appenders:
+    - type: console
+    - type: file
+      threshold: INFO
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p - [%thread] %logger: %m%n%ex"
+      currentLogFilename: "./external_resources/log/fitnesspoint.log"
+      archivedLogFilenamePattern: "./log/fitnesspoint-%d{yyyy-MM-dd}-%i.log"
+      archivedFileCount: 30
+      timeZone: GMT+1
+      maxFileSize: 10MiB
+
+jwt_rsa_key: '{"keys":[{"p":"92dUuIAf5OP6CidhtanqV8TtJtJnTr2BdyHVQSL_AFlHyoUr31QNeFrx1FzNVmePpECtiFGA_pnrKPmynpGvyO0NbRxWgiuAY50jn1le2tc9hWFPG4VaRb3YHzXC1sYyd6TQUk8sgF1d-ahXvy0e-V5Te9Kvo8rRAVoLaIT2xQ8","kty":"RSA","q":"7aJxpo2IM772XddUnFSzeRuYX_GyT-oZUgb7eue859SyX2PYJxN2YPsH54Sl99zwS15tobEqmm6RnGYRyR1KLdHhKpdjc0a5hKwCYjYrk6IiMR-5MWgxy9aMHCmTxu0L0vMXxbKmbQWIcNJLqAgL7JrBJY_W-OloGrgZzcMXB5s","d":"3ZsRbjl0SBMi-PvtRzSus_As4xHk4pZ-t4kVWMkt9hA9wnh0AcgN_y6jaHpIld9f3U0rbOPUXUeY_SeGfUzRu2BoFqwHEY7gFcJXqAp1eCkcmQtejrdQ3gskOLgItYKSbGnwRnd9O85NNXN7SUdYykQFBaxAZJ0PX16KMdDz3JLiWXg6ZbvwzrUW7CMxJbiF-Ns9ngaINILsFpQSftQW2bA0xdECbpHSuN0v8cX_Mn3DO4kfYslS42wZmqhZD7GjV1c_QIVdMN4akbR1GGgZIY7IEz7lcZfmI9hfDFI7vAhw6vWlkVG4tsz8mFXZi5HUQqpgj6_KM91JrESjTnqXYQ","e":"AQAB","use":"enc","kid":"e80CWZcPbB84+ZFFzPVR48eKOhRom6yHYvPKF0piUDxhrl1k5QkpQ0dQDZWJOp6gxrbWSGfMRpGL0AuQ8K5cfEdYAbFA8wLtdaiV9QYGVORFI98yQh4BYAGRQygQ/J6JF3RCYWL7MbhPFN3YEPysRBwKqdQBZ/iFFnysNSpVxJQ=","qi":"9wH-03ihNSXZgYUtknxHvcxY2S0BOsh9kFmtM4RXKKrj3DaSdDdzsFt_ko2bgxhQw-dZZ2FEVCU64PbUFVc5fYFYDgWBvyeohSvtX35u7BcNcl1DBbTlh27E3CIjSEXpznb7CVu3FhCORY42Jg0y4v__WOzTju4NLKGY9NMJ0ig","dp":"7KjwtwkA-XBHCB2B70gZvlnHTYKphf3rcW1w1L1IVyoQbZ8UR67cr8u3VyBq4ANyuXmRRjxI-8N62xh4kAzmrXpthHk-G4jHaQKxR8Yy4X5SAFwEU1wt7Vbb_Ybs2YyATEjhaksIU8Z8lcw-G8dqwLpFe8Yfc7wYUIW1Mgc3E2s","alg":"RS256","dq":"5wkJX_m4kz61PpVNANTkzPlEUvuk9kdOqM57D4pgwjCr30wuagdlD3Lgw3nW9r3Kriw3gH3EQvL_BMTDw_mDFjs4pHUdToVTdybZBm1OPrHidko2fk-kIl8MR5EwyLXMyiJoWWCQp-w6NB5xSgPQvA_Ve1R2l_gtq9ST2dYz_MM","n":"5aemp_2MhdfSte6aOl1rx0H4f_qXcsjat6buCLzk5BwPfaUXIbJGsUJuZTmNOs9p-zHwoCvJ_K4wiARrRvfNg2SRb3OzbuBd7xrmr1au87hzCejX6pXPL46InR1g6sTdkjObi3Jt_cefYTBaZ5OVuGrNKb-1dEhc_ngveirV25HW9_EBSrHe1ztNWPGz3Uys1q58mjYUIDeot1cqzxNu26bdR8OUqwWN7E3nmHrKXgGozT1G4YLp0ckndj__5CFjXhzVAU5eM_8UGe2FxjHNG8g5ebWX1dz_Irc2gFfpYDnoOQvhf-0zDDKAQ1XZh-x-GfpQl_6B54SnIvI0YiW5FQ"}]}'

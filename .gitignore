@@ -7,3 +7,9 @@
 /manager/img
 /manager/script
 /manager/*.php
+/target/
+/fitnesspoint-1.0.0-SNAPSHOT.jar
+/fitnesspoint-pem.pem
+/maven_settings.xml
+/.classpath
+/.project

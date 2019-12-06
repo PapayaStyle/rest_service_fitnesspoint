@@ -1,4 +1,0 @@
-<query name="selectAll">
-	select ID, PAGE, NAME
-	from PAGE
-</query>
